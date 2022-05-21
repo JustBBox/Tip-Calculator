@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <title>Tip calculator app</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container container_spacing">
+    <header class="container__header">
+      <h3>SPLI<br>TTER</h3>
+    </header>
+
+    <div class="splitter splitter_spacing">
+      <div class="splitter__segment splitter__segment_user-inputs">
+        <div class="control">
+          <h4 class="control__header">Bill</h4>
+          <h4 class="control__error" id="bill-error">Can't be zero</h4>
+          <input class="control__input-text" type="text" id="bill" placeholder="0">
+          <img class="control__icon" src="images/icon-dollar.svg" alt="dollar sign">
+        </div>
+        <div class="control">
+          <h4 class="control__header">Select Tip %</h4>
+          <div class="control__radio-group">
+            <input class="control__radio-group__radio-button" type="radio" name="percent" id="percent5" value="0.05">
+            <label class="control__radio-group__label" for="percent5">5%</label>
+            <input class="control__radio-group__radio-button" type="radio" name="percent" id="percent10" value="0.1">
+            <label class="control__radio-group__label" for="percent10">10%</label>
+            <input class="control__radio-group__radio-button" type="radio" name="percent" id="percent15" value="0.15">
+            <label class="control__radio-group__label" for="percent15">15%</label>
+            <input class="control__radio-group__radio-button" type="radio" name="percent" id="percent25" value="0.25">
+            <label class="control__radio-group__label" for="percent25">25%</label>
+            <input class="control__radio-group__radio-button" type="radio" name="percent" id="percent50" value="0.5">
+            <label class="control__radio-group__label" for="percent50">50%</label>
+            <input class="control__input-text control__input-text_radio-group-modifier" type="text" id="percentCustom" placeholder="Custom">
+          </div>
+        </div>
+        <div class="control">
+          <h4 class="control__header">Number of People</h4>
+          <h4 class="control__error" id="client-count-error">Can't be zero</h4>
+          <input class="control__input-text" type="text" id="client-count" placeholder="0">
+          <img class="control__icon" src="images/icon-person.svg" alt="dollar sign">
+        </div>
+      </div>
+
+      <div class="splitter__segment splitter__segment_info-outputs">
+        <div class="info-outputs-panel">
+          <div class="info-outputs-panel__spacing">
+            <span class="info-outputs-panel__header">
+              Tip Amount
+              <br>
+              <span class="info-outputs-panel__header_lowercase">/ person</span>
+            </span>
+            <div class="info-outputs-panel__output-value" id="tip-amount">$0.00</div>
+          </div>
+          <div class="info-outputs-panel__spacing">
+            <span class="info-outputs-panel__header">
+              Total
+              <br>
+              <span class="info-outputs-panel__header_lowercase">/ person</span>
+            </span>
+            <div class="info-outputs-panel__output-value" id="total">$0.00</div>
+          </div>
+        </div>
+        <button class="info-outputs-panel__btn-reset" onclick="TipCalculator.reset()" disabled>Reset</button>
+      </div>
+    </div>
+  </div>
+  <script src="control.js"></script>
+</body>
+</html>
