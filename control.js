@@ -75,6 +75,8 @@ const TipCalculator = {
         this.custom.value = '';
         document.getElementById('bill').value = '';
         document.getElementById('client-count').value = '';
+        document.getElementById('tip-amount').innerText = this.currency + '0.00';
+        document.getElementById('total').innerText = this.currency + '0.00';
     }
 }
 
