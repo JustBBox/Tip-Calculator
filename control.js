@@ -102,7 +102,7 @@ function resolveNumber(keyboardEvent) {
         keyboardEvent.preventDefault();
         return;
     }
-    if (key && target.classList.contains('control__input-text_wrong')) {
+    if (key && key !== '0' && target.classList.contains('control__input-text_wrong')) {
         target.classList.remove('control__input-text_wrong');
         const errorCaption = document.getElementById(target.id + '-error');
         if (errorCaption) errorCaption.classList.remove('control__error_visible');
@@ -113,8 +113,8 @@ function resolveNumber(keyboardEvent) {
         return;
     }
     if (key === '0'
-        && value.length > 1
-        && !selectionStart) {
+        && value.length > 0
+        && selectionStart <= 0) {
         keyboardEvent.preventDefault();
     }
     if (key === '0' && !value) {
