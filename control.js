@@ -13,9 +13,9 @@ const performCalculation = function (chosenCurrency) {
         const collection = Array.isArray(element) ? element : [element];
         if (rest.length > 0) collection.push(...rest);
 
-        for(let i = 0; i < collection.length; i++) {
-            const { value } = collection[i];
-            if(value === '' || value === '0')
+        for (let i = 0; i < collection.length; i++) {
+            const {value} = collection[i];
+            if (value === '' || value === '0')
                 return false;
         }
         return true;
@@ -24,17 +24,17 @@ const performCalculation = function (chosenCurrency) {
     return (blurEvent) => {
         const Tip = RadioGroup.find(item => item.checked) || CustomPercent;
         if (Bill.value || Clients.value || Tip.value) {
-           document.getElementsByClassName('info-outputs-panel__btn-reset')[0].removeAttribute('disabled');
+            document.getElementsByClassName('info-outputs-panel__btn-reset')[0].removeAttribute('disabled');
         }
-        if(isFormValid(Bill, Clients, Tip)) {
+        if (isFormValid(Bill, Clients, Tip)) {
             const BillValue = +Bill.value;
             const ClientsValue = +Clients.value;
             let TipValue = +Tip.value;
 
-            if(TipValue >= 1) TipValue = (TipValue / 100).toFixed(2);
+            if (TipValue >= 1) TipValue = (TipValue / 100).toFixed(2);
 
             tipAmount = ((BillValue * TipValue) / ClientsValue).toFixed(2);
-            total = ((BillValue / ClientsValue)  + +tipAmount).toFixed(2);
+            total = ((BillValue / ClientsValue) + +tipAmount).toFixed(2);
         } else {
             tipAmount = defaultValue;
             total = defaultValue;
@@ -53,7 +53,7 @@ const TipCalculator = {
     recalculate: performCalculation('$'),
     handleInputValueChanges() {
         this.inputs.forEach((input) => {
-            input.addEventListener('keydown', resolveNumber);
+            input.addEventListener('beforeinput', resolveNumber);
             input.addEventListener('keyup', this.recalculate);
             input.addEventListener('blur', this.recalculate);
         });
@@ -77,6 +77,13 @@ const TipCalculator = {
         document.getElementById('client-count').value = '';
         document.getElementById('tip-amount').innerText = this.currency + '0.00';
         document.getElementById('total').innerText = this.currency + '0.00';
+        document.querySelectorAll('.control__input-text').forEach(input => {
+            if (input.classList.contains('control__input-text_wrong')) {
+                input.classList.remove('control__input-text_wrong');
+                const errorCaption = document.getElementById(input.id + '-error');
+                if (errorCaption) errorCaption.classList.remove('control__error_visible');
+            }
+        });
     }
 }
 
@@ -84,28 +91,28 @@ TipCalculator.handleInputValueChanges();
 TipCalculator.handleCustomPercent();
 
 function resolveNumber(keyboardEvent) {
-    const { key, target } = keyboardEvent;
-    const { selectionStart } = target;
-    const { value } = this;
+    const {data: key, target} = keyboardEvent;
+    const {selectionStart} = target;
+    const {value} = this;
 
-    if(key.length > 1) return;
+    if (key === null) return;
 
     const nums = '0123456789';
-    if(!nums.includes(key)) {
+    if (!nums.includes(key)) {
         keyboardEvent.preventDefault();
         return;
     }
-    if (target.classList.contains('control__input-text_wrong')) {
+    if (key && target.classList.contains('control__input-text_wrong')) {
         target.classList.remove('control__input-text_wrong');
         const errorCaption = document.getElementById(target.id + '-error');
-        if(errorCaption) errorCaption.classList.remove('control__error_visible');
+        if (errorCaption) errorCaption.classList.remove('control__error_visible');
     }
-    if(value === '0') {
+    if (value === '0') {
         keyboardEvent.preventDefault();
         this.value = key;
         return;
     }
-    if( key === '0'
+    if (key === '0'
         && value.length > 1
         && !selectionStart) {
         keyboardEvent.preventDefault();
@@ -113,6 +120,6 @@ function resolveNumber(keyboardEvent) {
     if (key === '0' && !value) {
         target.classList.add('control__input-text_wrong');
         const errorCaption = document.getElementById(target.id + '-error');
-        if(errorCaption) errorCaption.classList.add('control__error_visible');
+        if (errorCaption) errorCaption.classList.add('control__error_visible');
     }
 }
